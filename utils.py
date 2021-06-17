@@ -9,7 +9,7 @@ Author
 """
 
 import math
-
+from pytube import YouTube
 
 def readable_time(time):
     """Returns an human readable time based on input.
@@ -30,3 +30,11 @@ def readable_time(time):
     seconds = remaining_time - minutes * 60
     return "{:02d}:{:02d}:{:02d}".format(hours, minutes, seconds)
 
+
+def youtube_download(link:str, format:str="mp4"):
+    """Download a youtube video via link"""
+
+    video = YouTube(link)
+    stream = video.streams.filter(progressive=True, 
+        file_extension=format).order_by('resolution').desc().first()
+    stream.download()
